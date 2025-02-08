@@ -1,0 +1,12 @@
+{
+  "name": "converterffmpeg",
+  "version": "1.0.0",
+  "description": "Conversor de mídia usando FFMPEG",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}
