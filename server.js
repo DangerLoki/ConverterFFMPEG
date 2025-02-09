@@ -38,7 +38,7 @@ app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'public/view/index.html'));
 });
 
-https.createServer(options, app).listen(3000, () => {
-    console.log("Servidor rodando em https://localhost:3000");
+https.createServer(options, app).listen(8080, () => {
+    console.log("Servidor rodando");
 });
 
