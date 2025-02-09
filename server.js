@@ -1,6 +1,16 @@
 const express = require('express');
 const path = require('path');
+const https = require("https");
 const app = express();
+const selfsigned = require("selfsigned");
+
+const attrs = [{ name: "commonName", value: "localhost" }];
+const pems = selfsigned.generate(attrs, { days: 1 });
+
+const options = {
+    key: pems.private,
+    cert: pems.cert,
+};
 
 // Adicionar headers de segurança necessários
 app.use((_, res, next) => {
@@ -28,7 +38,7 @@ app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'public/view/index.html'));
 });
 
-const PORT = 3000;
-app.listen(PORT, () => {
-    console.log(`Servidor rodando em http://localhost:${PORT}`);
-}); 
+https.createServer(options, app).listen(3000, () => {
+    console.log("Servidor rodando em https://localhost:3000");
+});
+
