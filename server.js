@@ -7,10 +7,6 @@ const selfsigned = require("selfsigned");
 const attrs = [{ name: "commonName", value: "localhost" }];
 const pems = selfsigned.generate(attrs, { days: 1 });
 
-const options = {
-    key: pems.private,
-    cert: pems.cert,
-};
 
 // Adicionar headers de segurança necessários
 app.use((_, res, next) => {
@@ -38,7 +34,7 @@ app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'public/view/index.html'));
 });
 
-https.createServer(options, app).listen(8080, () => {
+app.listen(8080, () => {
     console.log("Servidor rodando");
 });
 
