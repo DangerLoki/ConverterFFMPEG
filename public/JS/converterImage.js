@@ -1,5 +1,5 @@
-const { createFFmpeg } = FFmpeg;
-const ffmpeg = createFFmpeg({ log: true });
+//const { createFFmpeg } = FFmpeg;
+//const ffmpeg = createFFmpeg({ log: true });
 
 document.getElementById('convertImage').addEventListener('click', async () => {
     const imageInput = document.getElementById('imageInput');
@@ -11,27 +11,40 @@ document.getElementById('convertImage').addEventListener('click', async () => {
     }
 
     try {
+        const { FFmpeg } = FFmpegWASM;
+        const ffmpeg = new FFmpeg({ corePath: '/JS/ffmpeg/ffmpeg-core.js' });
+        ffmpeg.on('progress', ({ progress }) => {
+            updateProgress(progress);
+        });
+        ffmpeg.on('log', ({ message }) => {
+            console.log(`FFmpeg: ${message}`);
+        });
         // Carregar o FFmpeg
-        if (!ffmpeg.isLoaded()) {
+        if (!ffmpeg.loaded) {
             await ffmpeg.load();
         }
 
+
+        const inputImage = imageInput.files[0];
+        const outputImage = `${inputImage.name.split('.')[0]}.${outputFormat}`;
+
         // Ler o arquivo como array buffer
-        const imageData = await imageInput.files[0].arrayBuffer();
-        
+        const imageData = await inputImage.arrayBuffer();
+
         // Escrever o arquivo no sistema de arquivos virtual
-        ffmpeg.FS('writeFile', 'input.jpg', new Uint8Array(imageData));
+        ffmpeg.writeFile(inputImage.name, new Uint8Array(imageData));
 
         // Executar o comando de conversão
-        await ffmpeg.run('-i', 'input.jpg', `output.${outputFormat}`);
+        await ffmpeg.exec(['-i', inputImage.name, outputImage]);
 
         // Ler o arquivo convertido
-        const data = ffmpeg.FS('readFile', `output.${outputFormat}`);
+        const data = await ffmpeg.readFile(outputImage);
+        console.log(data);
 
         // Criar um link para download
         const url = URL.createObjectURL(new Blob([data.buffer], { type: `image/${outputFormat}` }));
         const output = document.getElementById('output');
-        output.innerHTML = `<a href="${url}" download="output.${outputFormat}" class="btn btn-success">
+        output.innerHTML = `<a href="${url}" download="${outputImage}" class="btn btn-success">
             <i class="fas fa-download"></i> Baixar imagem convertida
         </a>`;
 
