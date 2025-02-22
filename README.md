@@ -1,6 +1,6 @@
 # IMAGEM
 ## conversoes para imagem
-- [ ] 1 - converter para jpg
+- [x] 1 - converter para jpg
 - [ ] 2 - converter para png
 - [ ] 3 - converter para gif
 - [ ] 4 - converter para webp
