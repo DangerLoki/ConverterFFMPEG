@@ -1,6 +1,3 @@
-//const { createFFmpeg } = FFmpeg;
-//const ffmpeg = createFFmpeg({ log: true });
-
 document.getElementById('convertImage').addEventListener('click', async () => {
     const imageInput = document.getElementById('imageInput');
     const outputFormat = document.getElementById('outputFormat').value;
