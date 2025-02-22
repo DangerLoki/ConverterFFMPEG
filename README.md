@@ -1,9 +1,9 @@
 # IMAGEM
 ## conversoes para imagem
 - [x] 1 - converter para jpg
-- [ ] 2 - converter para png
+- [x] 2 - converter para png
 - [ ] 3 - converter para gif
-- [ ] 4 - converter para webp
+- [x] 4 - converter para webp
 - [ ] 5 - converter para bmp
 - [ ] 6 - converter para tiff
 - [ ] 7 - converter para ico
